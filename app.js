@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import expressSession from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
+import userRouter from "./routes/userRouter.js";
 
 const app = express();
 
@@ -78,6 +79,8 @@ passport.deserializeUser(async (id, done) => {
 app.get("/", (req, res) => {
   res.render("index", { user: req.user });
 });
+
+app.use("/sign-up", userRouter);
 
 app.use("/", (req, res) => {
   res.send("Not found");

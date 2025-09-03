@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/form.css">
+</head>
+<body>
+  <h1>Sign Up</h1>
+  <form action="<%= url %>" method="post">
+    <div class="error-container">
+      <% if (errors) { %>
+        <% if (errors.username) { %>
+          <p class="error"><%= errors.username %></p>
+        <% } %>
+        <% if (errors["confirmPassword"]) { %>
+          <p class="error"><%= errors["confirmPassword"] %></p>
+        <% } %>
+      <% } %>
+    </div>
+    <div class="input-group">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" value="<%= username %>" required>
+    </div>
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required>
+    </div>
+    <div class="input-group">
+      <label for="confirm-password">Confirm password</label>
+      <input id="confirm-password" name="confirmPassword" type="password" required>
+    </div>
+    <div class="btn-container">
+      <button class="submit-btn" type="submit">Submit</button>
+    </div>
+  </form>
+</body>
+</html>

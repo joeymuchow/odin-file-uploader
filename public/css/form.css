@@ -1,0 +1,37 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group label {
+  display: block;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn {
+  padding: 8px 12px;
+  color: #FFFFFF;
+  font-size: 1em;
+  background-color: #0092EE;
+  border: 1px solid #0072EE;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.submit-btn:active {
+  background-color: #0394ee;
+  -webkit-box-shadow: inset 0px 0px 6px #005a92;
+     -moz-box-shadow: inset 0px 0px 6px #005a92;
+          box-shadow: inset 0px 0px 6px #005a92;
+   outline: none;
+}
+
+.error {
+  color: #da1818;
+  margin: 5px;
+}
