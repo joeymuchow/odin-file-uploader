@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { newUserGet, newUserPost } from "../controllers/userController.js";
 import { body } from "express-validator";
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "../generated/prisma/index.js";
 
 const userRouter = Router();
 const prisma = new PrismaClient();
@@ -10,19 +10,17 @@ userRouter.get("/", newUserGet);
 userRouter.post(
   "/",
   body("username").custom(async (value) => {
-    const existingUsername = await prisma.user
+    const existingUsername = await prisma.userAccount
       .findUnique({
         where: { username: value },
-      })
-      .then(async () => {
-        await prisma.$disconnect();
       })
       .catch(async (e) => {
         console.error(e);
         await prisma.$disconnect();
-        process.exit(1);
       });
-    if (existingUsername.length) {
+      
+    await prisma.$disconnect();
+    if (existingUsername) {
       throw new Error("This username is unavailable.");
     }
     return true;

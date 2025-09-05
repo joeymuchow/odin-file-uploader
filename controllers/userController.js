@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "../generated/prisma/index.js";
 
 const prisma = new PrismaClient();
 
@@ -15,7 +15,7 @@ function newUserGet(req, res) {
 async function newUserPost(req, res, next) {
   const { username, password } = req.body;
   const result = validationResult(req);
-  
+
   if (!result.isEmpty()) {
     const formattedErrors = {};
 
@@ -31,18 +31,15 @@ async function newUserPost(req, res, next) {
   } else {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      await prisma.user.create({username, password: hashedPassword});
+      await prisma.userAccount.create({
+        data: { username: username, password: hashedPassword },
+      });
       res.redirect("/");
     } catch (error) {
       console.error(error);
       next(error);
     }
   }
-  
 }
 
-
-export {
-  newUserGet,
-  newUserPost,
-}
+export { newUserGet, newUserPost };
