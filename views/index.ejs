@@ -7,5 +7,16 @@
 </head>
 <body>
   <h1>File uploader</h1>
+  <% if (user) { %>
+    <p>Hello <%= user.username %></p>
+    <div class="links">
+      <a href="/log-out">Log out</a>
+    </div>
+  <% } else { %>
+    <div class="links">
+      <a href="/sign-up">Sign up</a>
+      <a href="/log-in">Log in</a>
+    </div>
+  <% } %>
 </body>
 </html>

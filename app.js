@@ -8,6 +8,7 @@ import expressSession from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { PrismaClient } from "./generated/prisma/index.js";
 import userRouter from "./routes/userRouter.js";
+import flash from "connect-flash";
 
 const app = express();
 
@@ -33,25 +34,34 @@ app.use(
   })
 );
 
+app.use(flash());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const rows = await findUsername(username);
-      const user = rows[0];
+      const prisma = new PrismaClient();
+      const user = await prisma.userAccount.findUnique({
+        where: { username },
+      });
+
+      await prisma.$disconnect();
 
       if (!user) {
         return done(null, false, { message: "Log in failed" });
       }
+
       const match = await bcrypt.compare(password, user.password);
+
       if (!match) {
         // passwords do not match!
         return done(null, false, { message: "Log in failed" });
       }
+
       return done(null, user);
     } catch (err) {
+      await prisma.$disconnect();
       return done(err);
     }
   })
@@ -63,11 +73,15 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const rows = await findUserById(id);
-    const user = rows[0];
+    const prisma = new PrismaClient();
+    const user = await prisma.userAccount.findFirst({
+      where: { id },
+    });
 
+    await prisma.$disconnect();
     done(null, user);
   } catch (err) {
+    await prisma.$disconnect();
     done(err);
   }
 });
@@ -77,6 +91,30 @@ app.get("/", (req, res) => {
 });
 
 app.use("/sign-up", userRouter);
+
+// authentication
+app.get("/log-in", (req, res) => {
+  const errorMessage = req.flash("error");
+  res.render("login", {
+    message: errorMessage,
+  });
+});
+app.post(
+  "/log-in",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/log-in",
+    failureFlash: true,
+  })
+);
+app.get("/log-out", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
 
 app.use("/", (req, res) => {
   res.send("Not found");
