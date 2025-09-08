@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload a file</title>
+</head>
+<body>
+  <h1>Upload a file</h1>
+  <form action="/upload" enctype="multipart/form-data" method="post">
+    <div class="input-group">
+      <label for="file">File</label>
+      <!-- TODO: add dropdown to list folders? -->
+      <!-- TODO: have no folder as an option? Or add a home folder on sign up? -->
+      <input type="file" id="file" name="file" required>
+    </div>
+    <div class="btn-container">
+      <button class="submit-btn" type="submit">Submit</button>
+    </div>
+  </form>
+</body>
+</html>

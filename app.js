@@ -9,6 +9,7 @@ import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { PrismaClient } from "./generated/prisma/index.js";
 import userRouter from "./routes/userRouter.js";
 import flash from "connect-flash";
+import uploadRouter from "./routes/uploadRouter.js";
 
 const app = express();
 
@@ -91,6 +92,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/sign-up", userRouter);
+app.use("/upload", uploadRouter);
 
 // authentication
 app.get("/log-in", (req, res) => {
