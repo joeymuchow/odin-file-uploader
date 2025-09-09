@@ -10,6 +10,7 @@ import { PrismaClient } from "./generated/prisma/index.js";
 import userRouter from "./routes/userRouter.js";
 import flash from "connect-flash";
 import uploadRouter from "./routes/uploadRouter.js";
+import folderRouter from "./routes/folderRouter.js";
 
 const app = express();
 
@@ -93,6 +94,7 @@ app.get("/", (req, res) => {
 
 app.use("/sign-up", userRouter);
 app.use("/upload", uploadRouter);
+app.use("/folder", folderRouter);
 
 // authentication
 app.get("/log-in", (req, res) => {

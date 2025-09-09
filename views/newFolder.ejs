@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Folder</title>
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/form.css">
+</head>
+<body>
+  <h1>New Folder</h1>
+  <form action="<%= url %>" method="post">
+    <div class="error-container">
+      <% if (message) { %>
+        <p class="error"><%= message %></p>
+      <% } %>
+    </div>
+    <div class="input-group">
+      <label for="folder-name">Folder name</label>
+      <input id="folder-name" name="folderName" type="text" value="<%= folderName %>" required>
+    </div>
+    <div class="btn-container">
+      <button class="submit-btn" type="submit">Submit</button>
+    </div>
+  </form>
+</body>
+</html>

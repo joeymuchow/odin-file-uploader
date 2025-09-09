@@ -2,8 +2,6 @@ import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "../generated/prisma/index.js";
 
-const prisma = new PrismaClient();
-
 function newUserGet(req, res) {
   res.render("signUp", {
     url: "/sign-up",
@@ -15,6 +13,7 @@ function newUserGet(req, res) {
 async function newUserPost(req, res, next) {
   const { username, password } = req.body;
   const result = validationResult(req);
+  const prisma = new PrismaClient();
 
   if (!result.isEmpty()) {
     const formattedErrors = {};

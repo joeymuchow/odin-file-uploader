@@ -24,6 +24,7 @@ model UserAccount {
 
 model Folder {
   id      Int         @id @default(autoincrement())
+  name    String
   owner   UserAccount @relation(fields: [ownerId], references: [id])
   ownerId Int
   files   File[]
@@ -32,7 +33,7 @@ model Folder {
 model File {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  title     String   @db.VarChar(255)
+  name      String   @db.VarChar(255)
   fileURL   String
   size      Float
   folder    Folder   @relation(fields: [folderId], references: [id])
