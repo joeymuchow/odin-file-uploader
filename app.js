@@ -78,6 +78,7 @@ passport.deserializeUser(async (id, done) => {
     const prisma = new PrismaClient();
     const user = await prisma.userAccount.findFirst({
       where: { id },
+      include: { folders: true },
     });
 
     await prisma.$disconnect();
@@ -88,8 +89,10 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.render("index", { user: req.user });
+app.get("/", async (req, res) => {
+  const { user } = req;
+  const folders = user ? user.folders : [];
+  res.render("index", { user, folders });
 });
 
 app.use("/sign-up", userRouter);

@@ -14,6 +14,11 @@
       <a href="/folder/new">New folder</a>
       <a href="/log-out">Log out</a>
     </div>
+    <div class="folders">
+      <% folders.forEach(function(folder) { %>
+        <a href="/folder/<%= folder.id %>"><%= folder.name %></a>
+      <% }); %>
+    </div>
   <% } else { %>
     <div class="links">
       <a href="/sign-up">Sign up</a>

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body } from "express-validator";
 import { PrismaClient } from "../generated/prisma/index.js";
-import { newFolderGet, newFolderPost } from "../controllers/folderController.js";
+import { newFolderGet, newFolderPost, viewFolderGet } from "../controllers/folderController.js";
 
 const folderRouter = Router();
 
@@ -30,5 +30,6 @@ folderRouter.post(
   }),
   newFolderPost
 );
+folderRouter.get("/:id", viewFolderGet);
 
 export default folderRouter;
