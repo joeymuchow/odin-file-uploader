@@ -32,10 +32,16 @@ async function newUserPost(req, res, next) {
       const hashedPassword = await bcrypt.hash(password, 10);
       await prisma.userAccount.create({
         data: { username: username, password: hashedPassword },
+      }).then(async (user) => {
+        await prisma.folder.create({
+          data: { name: "Home", ownerId: user.id }
+        });
       });
+      await prisma.$disconnect();
       res.redirect("/");
     } catch (error) {
       console.error(error);
+      await prisma.$disconnect();
       next(error);
     }
   }

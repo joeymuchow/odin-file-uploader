@@ -9,10 +9,16 @@
   <h1>Upload a file</h1>
   <form action="/upload" enctype="multipart/form-data" method="post">
     <div class="input-group">
+      <label for="folder">Folder</label>
+      <select name="folder" id="folder" required>
+        <% for (let i = 0; i < folders.length; i++) { %>
+          <option value="<%= folders[i].name %>"><%= folders[i].name %></option>
+        <% } %>
+      </select>
       <label for="file">File</label>
-      <!-- TODO: add dropdown to list folders? -->
-      <!-- TODO: have no folder as an option? Or add a home folder on sign up? -->
       <input type="file" id="file" name="file" required>
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
     </div>
     <div class="btn-container">
       <button class="submit-btn" type="submit">Submit</button>
