@@ -120,7 +120,48 @@ async function updateFolderNamePut(req, res) {
   }
 }
 
-// TODO: for delete, move all files in the folder to the 'Home' folder before deletion and make 'Home' impossible to delete in the app
-// TODO: for update, have link in folder view to see change folder name view? Also moving a file from one folder to another
+async function deleteFolderGet(req, res) {
+  const { id } = req.params;
+  const user = req.user;
+  const prisma = new PrismaClient();
+  const folder = await prisma.folder.findUnique({
+    where: { id: Number(id) },
+    include: { files: true },
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+  });
 
-export { newFolderGet, newFolderPost, viewFolderGet, updateFolderNameGet, updateFolderNamePut };
+  if (folder.files.length) {
+    const homeFolder = await prisma.folder.findFirst({
+      where: { ownerId: user.id, name: "Home", }
+    })
+    .catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+    });
+    for (const file of folder.files) {
+      await prisma.file.update({
+        where: { id: file.id },
+        data: { folderId: homeFolder.id },
+      })
+      .catch(async (e) => {
+        console.error(e);
+        await prisma.$disconnect();
+      });
+    }
+  }
+  
+  await prisma.folder.delete({
+    where: { id: Number(id) },
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+  });
+  await prisma.$disconnect();
+  res.redirect("/");
+}
+
+export { newFolderGet, newFolderPost, viewFolderGet, updateFolderNameGet, updateFolderNamePut, deleteFolderGet };

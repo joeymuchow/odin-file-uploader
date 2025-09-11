@@ -10,6 +10,7 @@
   <a href="/">Back</a>
   <% if (name !== "Home") { %>
     <a href="/folder/<%= id %>/update">Update folder</a>
+    <a href="/folder/<%= id %>/delete">Delete folder</a>
   <% } %>
   <% files.forEach(function(file) { %>
     <p><%= file.name %></p>

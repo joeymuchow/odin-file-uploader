@@ -8,7 +8,6 @@ function newUploadGet(req, res) {
 }
 
 async function newUploadPost(req, res) {
-  console.log(req.file);
   // TODO: Upload file to cloud storage
   // TODO: Store link to file in DB along with other info like folder
   const prisma = new PrismaClient();

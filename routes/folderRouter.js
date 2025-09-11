@@ -7,6 +7,7 @@ import {
   updateFolderNameGet,
   updateFolderNamePut,
   viewFolderGet,
+  deleteFolderGet,
 } from "../controllers/folderController.js";
 
 const folderRouter = Router();
@@ -45,5 +46,6 @@ folderRouter.put(
   body("newFolderName").custom(checkFolderName),
   updateFolderNamePut
 );
+folderRouter.get("/:id/delete", deleteFolderGet);
 
 export default folderRouter;
