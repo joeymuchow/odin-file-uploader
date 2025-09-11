@@ -8,6 +8,9 @@
 <body>
   <h1><%= name %></h1>
   <a href="/">Back</a>
+  <% if (name !== "Home") { %>
+    <a href="/folder/<%= id %>/update">Update folder</a>
+  <% } %>
   <% files.forEach(function(file) { %>
     <p><%= file.name %></p>
   <% }); %>

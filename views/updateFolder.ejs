@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Folder</title>
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/form.css">
+</head>
+<body>
+  <h1>Update Folder</h1>
+  <a href="<%= back %>">Back</a>
+  <form action="<%= url %>" method="post">
+    <input type="hidden" name="_method" value="put">
+    <div class="error-container">
+      <% if (message) { %>
+        <p class="error"><%= message %></p>
+      <% } %>
+    </div>
+    <div class="input-group">
+      <label for="folder-name">New folder name</label>
+      <input id="folder-name" name="newFolderName" type="text" required>
+    </div>
+    <div class="btn-container">
+      <button class="submit-btn" type="submit">Submit</button>
+    </div>
+  </form>
+</body>
+</html>

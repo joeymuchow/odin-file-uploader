@@ -11,6 +11,7 @@ import userRouter from "./routes/userRouter.js";
 import flash from "connect-flash";
 import uploadRouter from "./routes/uploadRouter.js";
 import folderRouter from "./routes/folderRouter.js";
+import methodOverride from "method-override";
 
 const app = express();
 
@@ -39,6 +40,14 @@ app.use(
 app.use(flash());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride((req, res) => {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    const method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
